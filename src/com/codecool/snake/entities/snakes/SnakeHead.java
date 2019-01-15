@@ -58,6 +58,10 @@ public class SnakeHead extends GameEntity implements Interactable {
         snake.changeHealth(diff);
     }
 
+    public void speedUp(){
+        snake.speedUp();
+    }
+
     @Override
     public String getMessage() {
         return "IMMA SNAEK HED! SPITTIN' MAH WENOM! SPITJU-SPITJU!";
