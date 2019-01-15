@@ -15,6 +15,8 @@ public class Snake implements Animatable {
     private static final float speed = 2;
     private float speedMultiplier = 1;
     private static final float SPEED_MULTIPLIER = 1.5f;
+    private static final float DEFAULT_MULTIPLIER = 1;
+    private static final float SPEED_UP_TIME = 3;
     private int health = 100;
     private StopWatch stopwatch = new StopWatch();
 
@@ -65,12 +67,12 @@ public class Snake implements Animatable {
     public void speedUp(){
         //speed up logic
         stopwatch.start();
-        speedMultiplier = 1.5f;
+        speedMultiplier = SPEED_MULTIPLIER;
     }
 
     private void checkSpeedModification(){
-        if(stopwatch.elapsedTimeInSecounds() > 3){
-            speedMultiplier = 1;
+        if(stopwatch.elapsedTimeInSecounds() > SPEED_UP_TIME){
+            speedMultiplier = DEFAULT_MULTIPLIER;
         }
     }
 
