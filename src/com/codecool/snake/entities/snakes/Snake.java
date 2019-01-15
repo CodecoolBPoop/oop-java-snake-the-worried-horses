@@ -2,6 +2,7 @@ package com.codecool.snake.entities.snakes;
 
 import com.codecool.snake.DelayedModificationList;
 import com.codecool.snake.Globals;
+import com.codecool.snake.Util.StopWatch;
 import com.codecool.snake.entities.Animatable;
 import com.codecool.snake.entities.GameEntity;
 import com.codecool.snake.eventhandler.InputHandler;
@@ -12,7 +13,10 @@ import javafx.scene.input.KeyCode;
 
 public class Snake implements Animatable {
     private static final float speed = 2;
+    private float speedMultiplier = 1;
+    private static final float SPEED_MULTIPLIER = 1.5f;
     private int health = 100;
+    private StopWatch stopwatch = new StopWatch();
 
     private SnakeHead head;
     private DelayedModificationList<GameEntity> body;
@@ -27,12 +31,13 @@ public class Snake implements Animatable {
 
     public void step() {
         SnakeControl turnDir = getUserInput();
-        head.updateRotation(turnDir, speed);
+        head.updateRotation(turnDir, speed * speedMultiplier);
 
         updateSnakeBodyHistory();
         checkForGameOverConditions();
 
         body.doPendingModifications();
+        checkSpeedModification();
     }
 
     private SnakeControl getUserInput() {
@@ -55,6 +60,18 @@ public class Snake implements Animatable {
 
     public void changeHealth(int diff) {
         health += diff;
+    }
+
+    public void speedUp(){
+        //speed up logic
+        stopwatch.start();
+        speedMultiplier = 1.5f;
+    }
+
+    private void checkSpeedModification(){
+        if(stopwatch.elapsedTimeInSecounds() > 3){
+            speedMultiplier = 1;
+        }
     }
 
     public int getHealth() {
