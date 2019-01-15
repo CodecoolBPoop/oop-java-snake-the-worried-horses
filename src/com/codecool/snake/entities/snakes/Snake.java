@@ -59,6 +59,10 @@ public class Snake implements Animatable {
         health += diff;
     }
 
+    public int getHealth() {
+        return health;
+    }
+
     private void checkForGameOverConditions() {
         if (head.isOutOfBounds() || health <= 0) {
             Score endScore = new Score();
