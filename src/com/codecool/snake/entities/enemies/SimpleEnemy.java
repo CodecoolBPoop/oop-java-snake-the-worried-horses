@@ -14,8 +14,6 @@ import javafx.geometry.Point2D;
 
 public class SimpleEnemy extends Enemy implements Animatable, Interactable {
 
-    private static final float turnRate = 2;
-
     private Point2D heading;
     private static Random rnd = new Random();
 
