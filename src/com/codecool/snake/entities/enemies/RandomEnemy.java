@@ -10,16 +10,13 @@ import java.util.Random;
 
 import javafx.geometry.Point2D;
 
-
-
-public class SimpleEnemy extends Enemy implements Animatable, Interactable {
-
-    private static final float turnRate = 2;
-
+public class RandomEnemy extends Enemy implements Animatable, Interactable {
     private Point2D heading;
     private static Random rnd = new Random();
 
-    public SimpleEnemy() {
+    private static final float turnRate = 25;
+
+    public RandomEnemy() {
         super(10);
 
         setImage(Globals.getInstance().getImage("SimpleEnemy"));
@@ -35,10 +32,23 @@ public class SimpleEnemy extends Enemy implements Animatable, Interactable {
 
     @Override
     public void step() {
+        int speed = 1;
         if (isOutOfBounds()) {
             destroy();
         }
 
+        double getRotation = getRotate();
+
+        int random = (int )(Math.random() * 50 + 1);
+
+        if (random == 1){
+            getRotation = getRotation - turnRate;
+        }else if(random == 2){
+            getRotation = getRotation + turnRate;
+        }
+
+        setRotate(getRotation);
+        heading = Utils.directionToVector(getRotation, speed);
         setX(getX() + heading.getX());
         setY(getY() + heading.getY());
     }
@@ -55,4 +65,5 @@ public class SimpleEnemy extends Enemy implements Animatable, Interactable {
     public String getMessage() {
         return (getDamage() + " damage");
     }
+
 }
