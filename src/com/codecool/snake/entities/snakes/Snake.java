@@ -4,10 +4,12 @@ import com.codecool.snake.DelayedModificationList;
 import com.codecool.snake.Globals;
 import com.codecool.snake.entities.Animatable;
 import com.codecool.snake.entities.GameEntity;
+import com.codecool.snake.entities.playerscore.Score;
 import com.codecool.snake.eventhandler.InputHandler;
 
 import com.sun.javafx.geom.Vec2d;
 import javafx.scene.input.KeyCode;
+import javafx.stage.Stage;
 
 
 public class Snake implements Animatable {
@@ -63,7 +65,9 @@ public class Snake implements Animatable {
 
     private void checkForGameOverConditions() {
         if (head.isOutOfBounds() || health <= 0) {
-            System.out.println("Game Over");
+            Score endScore = new Score();
+            endScore.checkSneakLength(this.getSnakeLength());
+            endScore.createGameEndPopUp(new Stage());
             Globals.getInstance().stopGame();
         }
     }
@@ -81,5 +85,9 @@ public class Snake implements Animatable {
 
         if(result != null) return result;
         return head;
+    }
+
+    public int getSnakeLength() {
+        return body.getList().size();
     }
 }
