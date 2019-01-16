@@ -7,11 +7,11 @@ import com.codecool.snake.entities.snakes.SnakeHead;
 import java.util.Random;
 
 
-public class SimplePowerUp extends PowerUp {
+public class SpeedPowerUp extends PowerUp {
     private static Random rnd = new Random();
 
-    public SimplePowerUp() {
-        setImage(Globals.getInstance().getImage("PowerUpBerry"));
+    public SpeedPowerUp() {
+        setImage(Globals.getInstance().getImage("SpeedPowerUp"));
 
         setX(rnd.nextDouble() * Globals.WINDOW_WIDTH);
         setY(rnd.nextDouble() * Globals.WINDOW_HEIGHT);
@@ -20,6 +20,7 @@ public class SimplePowerUp extends PowerUp {
     @Override
     public void apply(GameEntity entity) {
         if(entity instanceof SnakeHead){
+            ((SnakeHead) entity).speedUp();
             System.out.println(getMessage());
             destroy();
         }
@@ -27,7 +28,6 @@ public class SimplePowerUp extends PowerUp {
 
     @Override
     public String getMessage() {
-        return "Got power-up :)";
+        return "Got speed-power-up :)";
     }
-
 }
