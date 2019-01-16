@@ -5,7 +5,7 @@ import com.codecool.snake.Globals;
 import com.codecool.snake.Util.StopWatch;
 import com.codecool.snake.entities.Animatable;
 import com.codecool.snake.entities.GameEntity;
-import com.codecool.snake.entities.playerscore.Score;
+import com.codecool.snake.entities.window.Popup;
 import com.codecool.snake.eventhandler.InputHandler;
 
 import com.sun.javafx.geom.Vec2d;
@@ -84,9 +84,10 @@ public class Snake implements Animatable {
 
     private void checkForGameOverConditions() {
         if (head.isOutOfBounds() || health <= 0) {
-            Score endScore = new Score();
-            endScore.checkSneakLength(this.getSnakeLength());
-            endScore.createGameEndPopUp(new Stage());
+            Popup endPopup = new Popup();
+            endPopup.setMessageField("Final Score: " + getSnakeLength());
+            endPopup.setButtonName("Exit");
+            endPopup.createGameEndPopUp(new Stage());
             Globals.getInstance().stopGame();
         }
     }
