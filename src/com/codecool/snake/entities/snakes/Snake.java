@@ -41,7 +41,7 @@ public class Snake implements Animatable {
         checkForGameOverConditions();
 
         body.doPendingModifications();
-        checkSpeedModification();
+        checkSpeedUpTimer();
     }
 
     private SnakeControl getUserInput() {
@@ -67,13 +67,12 @@ public class Snake implements Animatable {
     }
 
     public void speedUp(){
-        //speed up logic
         stopwatch.start();
         speedMultiplier = SPEED_MULTIPLIER;
     }
 
-    private void checkSpeedModification(){
-        if(stopwatch.elapsedTimeInSecounds() > SPEED_UP_TIME){
+    private void checkSpeedUpTimer(){
+        if(stopwatch.elapsedTimeInSecounds() >= SPEED_UP_TIME){
             speedMultiplier = DEFAULT_MULTIPLIER;
         }
     }
