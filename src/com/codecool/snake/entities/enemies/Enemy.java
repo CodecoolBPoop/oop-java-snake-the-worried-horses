@@ -4,6 +4,7 @@ import com.codecool.snake.Globals;
 import com.codecool.snake.Utils;
 import com.codecool.snake.entities.GameEntity;
 import com.codecool.snake.entities.snakes.SnakeHead;
+import com.sun.javafx.geom.Vec2d;
 import javafx.geometry.Point2D;
 
 import java.util.Random;
@@ -31,20 +32,22 @@ public abstract class Enemy extends GameEntity{
         double u = 500;
         double v = 500;
         if(snakeHead != null) {
-            u = snakeHead.getPosition().x;
-            v = snakeHead.getPosition().y;
-            r = Math.sqrt(Math.pow(x-u,2) + Math.pow(y-v,2));
+            r = snakeHead.getDistance(x,y);
             while(Math.round(r) < 100){
                 x = rnd.nextDouble() * Globals.WINDOW_WIDTH;
                 y = rnd.nextDouble() * Globals.WINDOW_HEIGHT;
+                r = snakeHead.getDistance(x,y);
             }
         }else{
             r = Math.sqrt(Math.pow(x-u,2) + Math.pow(y-v,2));
-            while(Math.round(r) < 100){
+            while(r < 100){
                 x = rnd.nextDouble() * Globals.WINDOW_WIDTH;
                 y = rnd.nextDouble() * Globals.WINDOW_HEIGHT;
+                r = Math.sqrt(Math.pow(x-u,2) + Math.pow(y-v,2));
             }
         }
+
+
 
         setX(x);
         setY(y);

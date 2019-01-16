@@ -26,7 +26,7 @@ public class Game extends Pane {
 
     public void init() {
         spawnSnake();
-        spawnEnemies(4);
+        spawnEnemies(20);
         new PowerUpSpawner(NUMBER_OF_SIMPLE_POWER_UPS);
 
 
