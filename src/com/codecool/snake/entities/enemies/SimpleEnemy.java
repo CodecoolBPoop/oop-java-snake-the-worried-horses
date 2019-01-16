@@ -13,13 +13,14 @@ import java.util.Random;
 import com.sun.javafx.geom.Vec2d;
 import javafx.geometry.Point2D;
 
+import javax.swing.text.html.parser.Entity;
 
 
 public class SimpleEnemy extends Enemy implements Animatable, Interactable {
 
     private Point2D heading;
 
-    private Vec2d snakeHeadposition = null;
+    private SnakeHead snakeHead = null;
 
     public SimpleEnemy() {
         super(10);
@@ -29,17 +30,24 @@ public class SimpleEnemy extends Enemy implements Animatable, Interactable {
     }
 
     private void spawn(){
-        snakeHeadposition = getSnakeHead();
+        double r;
         getSnakeHead();
         Random rnd = new Random();
         double x = rnd.nextDouble() * Globals.WINDOW_WIDTH;
         double y = rnd.nextDouble() * Globals.WINDOW_HEIGHT;
-        while( x < snakeHeadposition.x+50 && x > snakeHeadposition.x && y < snakeHeadposition.y+50 && y > snakeHeadposition.y ){
-            x = rnd.nextDouble() * Globals.WINDOW_WIDTH;
-            y = rnd.nextDouble() * Globals.WINDOW_HEIGHT;
+        if(snakeHead != null) {
+            double u = snakeHead.getPosition().x;
+            double v = snakeHead.getPosition().y;
+            r = Math.sqrt(Math.pow(x-u,2) + Math.pow(y-v,2));
+            while(Math.round(r) < 100){
+                x = rnd.nextDouble() * Globals.WINDOW_WIDTH;
+                y = rnd.nextDouble() * Globals.WINDOW_HEIGHT;
+            }
         }
+
         setX(x);
         setY(y);
+
         double direction = rnd.nextDouble() * 360;
         setRotate(direction);
         int speed = 1;
@@ -47,13 +55,12 @@ public class SimpleEnemy extends Enemy implements Animatable, Interactable {
 
     }
 
-    public Vec2d getSnakeHead(){
+    public void getSnakeHead(){
         for (GameEntity item : Globals.getInstance().display.getObjectList() ) {
             if (item instanceof SnakeHead) {
-                return item.getPosition();
+                snakeHead = (SnakeHead) item;
             }
         }
-        return ;
     }
 
     @Override
@@ -63,8 +70,6 @@ public class SimpleEnemy extends Enemy implements Animatable, Interactable {
         }
         setX(getX() + heading.getX());
         setY(getY() + heading.getY());
-
-
     }
 
     @Override
