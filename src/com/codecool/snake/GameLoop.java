@@ -27,6 +27,7 @@ public class GameLoop {
             for (GameEntity gameObject : Globals.getInstance().display.getObjectList()) {
                 if (gameObject instanceof Animatable) {
                     ((Animatable) gameObject).step();
+
                 }
             }
             checkCollisions();

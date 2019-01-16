@@ -36,8 +36,6 @@ public class Game extends Pane {
         gameTimer.play();
     }
 
-
-
     public void start() {
         setupInputHandling();
         Globals.getInstance().startGame();

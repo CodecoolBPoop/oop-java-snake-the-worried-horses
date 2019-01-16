@@ -62,6 +62,10 @@ public class SnakeHead extends GameEntity implements Interactable {
         snake.speedUp();
     }
 
+    public Vec2d getHeadPosition() {
+        return getPosition();
+    }
+
     @Override
     public String getMessage() {
         return "IMMA SNAEK HED! SPITTIN' MAH WENOM! SPITJU-SPITJU!";
