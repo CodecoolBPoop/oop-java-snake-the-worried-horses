@@ -25,7 +25,6 @@ public class RandomEnemy extends Enemy implements Animatable, Interactable {
 
         double direction = rnd.nextDouble() * 360;
         setRotate(direction);
-
         int speed = 1;
         heading = Utils.directionToVector(direction, speed);
     }

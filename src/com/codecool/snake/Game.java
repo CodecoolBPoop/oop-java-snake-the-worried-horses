@@ -28,7 +28,7 @@ public class Game extends Pane {
 
     public void init() {
         spawnSnake();
-        spawnEnemies(1);
+        spawnEnemies(3);
         new PowerUpSpawner(NUMBER_OF_SIMPLE_POWER_UPS);
 
 
@@ -48,8 +48,8 @@ public class Game extends Pane {
     }
 
     private void spawnEnemies(int numberOfEnemies) {
-        //for(int i = 0; i < numberOfEnemies; ++i) new SimpleEnemy();
-        //for(int i = 0; i < numberOfEnemies; ++i) new RandomEnemy();
+        -for(int i = 0; i < numberOfEnemies; ++i) new SimpleEnemy();
+        for(int i = 0; i < numberOfEnemies; ++i) new RandomEnemy();
         for(int i = 0; i < numberOfEnemies; ++i) new FollowingEnemy();
 
 

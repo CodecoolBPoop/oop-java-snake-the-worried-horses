@@ -12,9 +12,6 @@ import javafx.geometry.Point2D;
 
 public class FollowingEnemy extends Enemy implements Animatable, Interactable {
 
-    private SnakeHead snakeHead = super.snakeHead;
-
-
     double direction;
 
     public FollowingEnemy() {
@@ -22,12 +19,16 @@ public class FollowingEnemy extends Enemy implements Animatable, Interactable {
 
         setImage(Globals.getInstance().getImage("SimpleEnemy"));
 
-        /*Random rnd = new Random();
-        direction = rnd.nextDouble() * 360;
-        setRotate(direction);*/
-        double direction = 360 - Math.atan((getX() - 500) / (getY() - 500))*360;
+        double direction;
+        double a = 500 - getX();
+        double b = 500 - getY();
+        double alpha = Math.atan( a / b ) * 57.2957795;
+        if(a < 0 && b > 0 || a > 0 && b > 0){
+            direction = 180 - alpha;
+        }else{
+            direction = 360 - alpha;
+        }
         setRotate(direction);
-        System.out.println(direction);
         int speed = 1;
         heading = Utils.directionToVector(direction, speed);
     }
@@ -37,9 +38,27 @@ public class FollowingEnemy extends Enemy implements Animatable, Interactable {
         if (isOutOfBounds()) {
             destroy();
         }
+        System.out.println(snakeHead);
+        if(snakeHead != null) {
+            double a = snakeHead.getPosition().x - getX();
+            double b = snakeHead.getPosition().y - getY();
+            double alpha = Math.atan( a / b ) * 57.2957795;
+            double getRotation = getRotate();
+            System.out.println("vau");
+            if(a < 0 && b > 0 || a > 0 && b > 0){
+                getRotation = getRotation + 180 - alpha;
+            }else{
+                getRotation = getRotation + 360 - alpha;
+            }
+
+            setRotate(getRotation);
+            int speed = 1;
+            heading = Utils.directionToVector(getRotation, speed);
+        }
 
         setX(getX() + heading.getX());
         setY(getY() + heading.getY());
+
     }
 
     @Override
