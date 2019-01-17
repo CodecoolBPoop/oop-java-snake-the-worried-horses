@@ -101,7 +101,6 @@ public class Snake implements Animatable {
 
     private GameEntity getLastPart() {
         GameEntity result = body.getLast();
-
         if(result != null) return result;
         return head;
     }

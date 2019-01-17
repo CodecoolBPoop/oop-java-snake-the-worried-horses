@@ -11,7 +11,8 @@ import java.util.Random;
 
 public abstract class Enemy extends GameEntity{
     private final int damage;
-    private SnakeHead snakeHead = null;
+
+    public SnakeHead snakeHead = null;
     protected Point2D heading;
 
     public Enemy(int damage) {
@@ -46,16 +47,9 @@ public abstract class Enemy extends GameEntity{
                 r = Math.sqrt(Math.pow(x-u,2) + Math.pow(y-v,2));
             }
         }
-
-
-
         setX(x);
         setY(y);
 
-        double direction = rnd.nextDouble() * 360;
-        setRotate(direction);
-        int speed = 1;
-        heading = Utils.directionToVector(direction, speed);
     }
 
     public void getSnakeHead(){
