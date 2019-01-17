@@ -5,13 +5,17 @@ import com.codecool.snake.entities.Animatable;
 import com.codecool.snake.entities.Interactable;
 import com.codecool.snake.entities.snakes.Snake;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GameLoop {
-    private Snake snake;
+    private List<Snake> players = new ArrayList<>();
     private boolean running = false;
 
-    public GameLoop(Snake snake) { this.snake = snake; }
+    public GameLoop(Snake snake, Snake snake2) {
+        players.add(snake);
+        players.add(snake2);
+    }
 
     public void start() {
         running = true;
@@ -21,9 +25,15 @@ public class GameLoop {
         running = false;
     }
 
+    private void makePlayersStep(){
+        for (Snake player : players) {
+            player.step();
+        }
+    }
+
     public void step() {
         if(running) {
-            snake.step();
+            makePlayersStep();
             for (GameEntity gameObject : Globals.getInstance().display.getObjectList()) {
                 if (gameObject instanceof Animatable) {
                     ((Animatable) gameObject).step();
