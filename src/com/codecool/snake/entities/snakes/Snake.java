@@ -75,7 +75,7 @@ public class Snake implements Animatable {
     }
 
     private void checkForGameOverConditions() {
-        if(Globals.getInstance().isBothSnakeOutOfBounds()){
+        if(Globals.getInstance().isBothSnakeOutOfBounds() || head.isCollideedWithSnakeHead()){
             stopGame();
         }else if (head.isOutOfBounds() || health <= 0) {
             head.destroy();
