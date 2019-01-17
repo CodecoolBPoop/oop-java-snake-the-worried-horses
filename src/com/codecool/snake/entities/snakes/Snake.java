@@ -6,10 +6,8 @@ import com.codecool.snake.Util.StopWatch;
 import com.codecool.snake.entities.Animatable;
 import com.codecool.snake.entities.GameEntity;
 import com.codecool.snake.entities.window.Popup;
-import com.codecool.snake.eventhandler.InputHandler;
 
 import com.sun.javafx.geom.Vec2d;
-import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 
 
@@ -24,17 +22,19 @@ public class Snake implements Animatable {
 
     private SnakeHead head;
     private DelayedModificationList<GameEntity> body;
+    private SnakeInputControls inputControls = null;
 
 
-    public Snake(Vec2d position) {
+    public Snake(Vec2d position, SnakeInputControls inputControl) {
         head = new SnakeHead(this, position);
         body = new DelayedModificationList<>();
+        this.inputControls = inputControl;
 
         addPart(4);
     }
 
     public void step() {
-        SnakeControl turnDir = getUserInput();
+        SnakeControl turnDir = inputControls.getUserInput();
         head.updateRotation(turnDir, speed * speedMultiplier);
 
         updateSnakeBodyHistory();
@@ -42,13 +42,6 @@ public class Snake implements Animatable {
 
         body.doPendingModifications();
         checkSpeedUpTimer();
-    }
-
-    private SnakeControl getUserInput() {
-        SnakeControl turnDir = SnakeControl.INVALID;
-        if(InputHandler.getInstance().isKeyPressed(KeyCode.LEFT)) turnDir = SnakeControl.TURN_LEFT;
-        if(InputHandler.getInstance().isKeyPressed(KeyCode.RIGHT)) turnDir = SnakeControl.TURN_RIGHT;
-        return turnDir;
     }
 
     public void addPart(int numParts) {
@@ -82,13 +75,20 @@ public class Snake implements Animatable {
     }
 
     private void checkForGameOverConditions() {
-        if (head.isOutOfBounds() || health <= 0) {
-            Popup endPopup = new Popup();
-            endPopup.setMessageField("Final Score: " + getSnakeLength());
-            endPopup.setButtonName("Exit");
-            endPopup.createGameEndPopUp(new Stage());
-            Globals.getInstance().stopGame();
+        if(Globals.getInstance().isBothSnakeOutOfBounds()){
+            stopGame();
+        }else if (head.isOutOfBounds() || health <= 0) {
+            head.destroy();
+            body.clear();
         }
+    }
+
+    private void stopGame(){
+        Popup endPopup = new Popup();
+        endPopup.setMessageField("Final Score: " + getSnakeLength());
+        endPopup.setButtonName("Exit");
+        endPopup.createGameEndPopUp(new Stage());
+        Globals.getInstance().stopGame();
     }
 
     private void updateSnakeBodyHistory() {
@@ -108,5 +108,9 @@ public class Snake implements Animatable {
 
     public int getSnakeLength() {
         return body.getList().size();
+    }
+
+    public boolean isOutOfBounds() {
+        return head.isOutOfBounds();
     }
 }

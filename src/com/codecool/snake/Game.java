@@ -1,17 +1,20 @@
 package com.codecool.snake;
 
 import com.codecool.snake.entities.enemies.SimpleEnemy;
-import com.codecool.snake.entities.powerups.core.PowerUpSpawner;
+import com.codecool.snake.entities.powerups.core.Spawner;
 import com.codecool.snake.entities.snakes.Snake;
+import com.codecool.snake.entities.snakes.SnakeInputControls;
 import com.codecool.snake.eventhandler.InputHandler;
 
 import com.sun.javafx.geom.Vec2d;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
 
 
 public class Game extends Pane {
-    private Snake snake = null;
+    private Snake snakeOne = null;
+    private Snake snakeTwo = null;
     private GameTimer gameTimer = new GameTimer();
     private final int NUMBER_OF_SIMPLE_POWER_UPS = 4;
 
@@ -25,12 +28,12 @@ public class Game extends Pane {
     }
 
     public void init() {
-        spawnSnake();
+        spawnSnakes();
         spawnEnemies(20);
-        new PowerUpSpawner(NUMBER_OF_SIMPLE_POWER_UPS);
+        new Spawner(NUMBER_OF_SIMPLE_POWER_UPS, 5);
 
 
-        GameLoop gameLoop = new GameLoop(snake);
+        GameLoop gameLoop = new GameLoop(snakeOne, snakeTwo);
         Globals.getInstance().setGameLoop(gameLoop);
         gameTimer.setup(gameLoop::step);
         gameTimer.play();
@@ -41,8 +44,9 @@ public class Game extends Pane {
         Globals.getInstance().startGame();
     }
 
-    private void spawnSnake() {
-        snake = new Snake(new Vec2d(500, 500));
+    private void spawnSnakes() {
+        snakeOne = new Snake(new Vec2d(700, 500), new SnakeInputControls(KeyCode.LEFT, KeyCode.RIGHT));
+        snakeTwo = new Snake(new Vec2d(200, 500), new SnakeInputControls(KeyCode.A, KeyCode.D));
     }
 
     private void spawnEnemies(int numberOfEnemies) {
@@ -53,5 +57,9 @@ public class Game extends Pane {
         Scene scene = getScene();
         scene.setOnKeyPressed(event -> InputHandler.getInstance().setKeyPressed(event.getCode()));
         scene.setOnKeyReleased(event -> InputHandler.getInstance().setKeyReleased(event.getCode()));
+    }
+
+    public boolean isBothSnakeOutOfBounds() {
+        return snakeOne.isOutOfBounds() && snakeTwo.isOutOfBounds();
     }
 }
