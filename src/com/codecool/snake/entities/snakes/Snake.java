@@ -12,7 +12,7 @@ import javafx.scene.input.KeyCode;
 
 public class Snake implements Animatable {
     private static final float speed = 2;
-    private int health = 100;
+    private int health = 60;
 
     private SnakeHead head;
     private DelayedModificationList<GameEntity> body;
@@ -77,5 +77,9 @@ public class Snake implements Animatable {
 
         if(result != null) return result;
         return head;
+    }
+
+    public int getHealth() {
+        return health;
     }
 }
