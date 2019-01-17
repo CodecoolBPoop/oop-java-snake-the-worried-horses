@@ -20,6 +20,10 @@ public abstract class GameEntity extends ImageView {
         return new Vec2d(getX(), getY());
     }
 
+    public double getDistance(double x, double y){
+        return getPosition().distance(x,y);
+    }
+
     public void setPosition(Vec2d pos) {
         setX(pos.x);
         setY(pos.y);
