@@ -3,6 +3,8 @@ package com.codecool.snake.entities.powerups.core;
 import com.codecool.snake.Util.StopWatch;
 import com.codecool.snake.entities.Animatable;
 import com.codecool.snake.entities.GameEntity;
+import com.codecool.snake.entities.enemies.FollowingEnemy;
+import com.codecool.snake.entities.enemies.RandomEnemy;
 import com.codecool.snake.entities.enemies.SimpleEnemy;
 import com.codecool.snake.entities.powerups.LifePowerUp;
 import com.codecool.snake.entities.powerups.SimplePowerUp;
@@ -18,7 +20,9 @@ public class Spawner extends GameEntity implements Animatable {
     private final float LIFE_POWER_UP_CHANCE = 0.2f;
     private final float SPEED_POWER_UP_CHANCE = 0.3f;
 
-    private final float ENEMY_CHANCE = 0.99f;
+    private final float ENEMY1_CHANCE = 0.6f;
+    private final float ENEMY2_CHANCE = 0.99f;
+    private final float ENEMY3_CHANCE = 0.2f;
 
     public Spawner(int numberOfPowerUps, int numberEnemies){
         initSimplePowerUps(numberOfPowerUps);
@@ -43,6 +47,8 @@ public class Spawner extends GameEntity implements Animatable {
     private void initEnemies(int numberOfEnemies){
         for (int i = 0; i < numberOfEnemies; i++) {
             new SimpleEnemy();
+            new RandomEnemy();
+            new FollowingEnemy();
         }
     }
 
@@ -61,11 +67,16 @@ public class Spawner extends GameEntity implements Animatable {
     }
 
     private void createNextEnemy(){
-        float chance = random.nextFloat();
+        float chance1 = random.nextFloat();
 
-        if (chance < ENEMY_CHANCE){
+        if (chance1 < ENEMY1_CHANCE){
             new SimpleEnemy();
+        }else if(chance1 < ENEMY2_CHANCE){
+            new RandomEnemy();
+        } else if(chance1 < ENEMY3_CHANCE){
+            new FollowingEnemy();
         }
+
     }
 
     @Override

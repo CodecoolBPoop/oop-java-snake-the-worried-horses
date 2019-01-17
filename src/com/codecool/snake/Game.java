@@ -31,8 +31,8 @@ public class Game extends Pane {
 
     public void init() {
         spawnSnakes();
-        spawnEnemies(3);
-        new Spawner(NUMBER_OF_SIMPLE_POWER_UPS);
+        //spawnEnemies(3);
+        new Spawner(NUMBER_OF_SIMPLE_POWER_UPS, 2 );
 
 
         GameLoop gameLoop = new GameLoop(snakeOne, snakeTwo);
