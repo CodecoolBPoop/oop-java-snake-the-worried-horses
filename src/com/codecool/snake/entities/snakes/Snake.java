@@ -12,6 +12,10 @@ import javafx.stage.Stage;
 
 
 public class Snake implements Animatable {
+
+    private static int playerNumber = 1;
+    private int id;
+
     private static final float speed = 2;
     private float speedMultiplier = 1;
     private static final float SPEED_MULTIPLIER = 1.5f;
@@ -22,6 +26,7 @@ public class Snake implements Animatable {
 
     private SnakeHead head;
     private DelayedModificationList<GameEntity> body;
+    private int bodyPoints;
     private SnakeInputControls inputControls = null;
 
 
@@ -31,6 +36,9 @@ public class Snake implements Animatable {
         this.inputControls = inputControl;
 
         addPart(4);
+
+        id = playerNumber;
+        playerNumber++;
     }
 
     public void step() {
@@ -42,6 +50,10 @@ public class Snake implements Animatable {
 
         body.doPendingModifications();
         checkSpeedUpTimer();
+
+        if (getSnakeLength() != 0) {
+            bodyPoints = getSnakeLength();
+        }
     }
 
     public void addPart(int numParts) {
@@ -85,7 +97,7 @@ public class Snake implements Animatable {
 
     private void stopGame(){
         Popup endPopup = new Popup();
-        endPopup.setMessageField("Final Score: " + getSnakeLength());
+        endPopup.setMessageField("Player " + id + "'s " + "Final Score: " + bodyPoints);
         endPopup.setButtonName("Exit");
         endPopup.createGameEndPopUp(new Stage());
         Globals.getInstance().stopGame();
